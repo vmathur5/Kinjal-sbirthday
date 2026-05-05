@@ -10,227 +10,245 @@
             --gold: #d4af37;
             --dark: #050505;
             --glass: rgba(255, 255, 255, 0.05);
+            --transition: 0.8s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
 
         body, html {
-            margin: 0; padding: 0;
             width: 100%; height: 100%;
             overflow: hidden;
             background: var(--dark);
             font-family: 'Montserrat', sans-serif;
             color: #fff;
-            touch-action: none; /* Prevents default browser zooming/scrolling */
+            touch-action: none;
         }
 
-        /* Smooth Background Animation */
-        .royal-bg {
+        /* Royal Animated Background */
+        .bg-layer {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #050505 100%);
             z-index: -1;
         }
 
-        #slider {
-            width: 100vw; height: 100vh;
+        /* Slide Container */
+        .slider {
             display: flex;
-            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            width: 100%; height: 100%;
+            transition: transform var(--transition);
             will-change: transform;
         }
 
         .slide {
-            min-width: 100vw;
-            height: 100vh;
+            min-width: 100%;
+            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+        }
+
+        /* Responsive Content Card */
+        .card {
+            width: 100%;
+            max-width: 1000px;
+            height: 85vh;
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            border-radius: 24px;
+            display: flex;
+            flex-direction: row;
+            overflow: hidden;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.9);
+        }
+
+        @media (max-width: 768px) {
+            .card { flex-direction: column; height: 90vh; }
+            .img-side { height: 50% !important; }
+            .text-side { height: 50% !important; padding: 30px !important; }
+            h1 { font-size: 2.5rem !important; }
+        }
+
+        .img-side {
+            flex: 1.2;
+            height: 100%;
+            overflow: hidden;
             position: relative;
         }
 
-        .content-card {
-            width: 90%; max-width: 1100px;
-            height: 80vh;
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            border-radius: 20px;
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            overflow: hidden;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
-        }
-
-        .text-section { padding: 50px; display: flex; flex-direction: column; justify-content: center; }
-        
-        .img-section { position: relative; overflow: hidden; }
-        .img-section img {
+        .img-side img {
             width: 100%; height: 100%;
             object-fit: cover;
-            transition: transform 1.5s ease-out;
+            transition: transform 2s ease;
         }
 
-        .active .img-section img { transform: scale(1.1); }
+        .slide.active img { transform: scale(1.1); }
 
-        h1 { font-family: 'Cinzel', serif; font-size: 4rem; color: var(--gold); margin: 0; line-height: 1; }
-        h2 { font-family: 'Great Vibes', cursive; font-size: 3rem; color: #f1d592; margin: 0; }
-        p { font-size: 1.1rem; line-height: 1.8; color: #ccc; font-weight: 300; }
+        .text-side {
+            flex: 1;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: left;
+        }
 
-        /* Royal Navigation Dots */
+        h1 { font-family: 'Cinzel', serif; font-size: 3.5rem; color: var(--gold); margin-bottom: 10px; }
+        h2 { font-family: 'Great Vibes', cursive; font-size: 3rem; color: #f1d592; margin-bottom: 20px; }
+        p { font-size: 1.1rem; line-height: 1.7; color: #ddd; font-weight: 300; }
+
+        /* Navigation */
         .dots {
-            position: fixed; bottom: 30px; left: 50%;
-            transform: translateX(-50%);
-            display: flex; gap: 15px; z-index: 100;
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 12px; z-index: 100;
         }
         .dot {
-            width: 10px; height: 10px;
-            border-radius: 50%;
-            background: rgba(212, 175, 55, 0.3);
-            transition: 0.3s;
+            width: 8px; height: 8px; border-radius: 50%;
+            background: rgba(212, 175, 55, 0.3); transition: 0.4s;
         }
-        .dot.active { background: var(--gold); transform: scale(1.5); box-shadow: 0 0 10px var(--gold); }
+        .dot.active { background: var(--gold); transform: scale(1.6); box-shadow: 0 0 15px var(--gold); }
 
-        /* Orientation Guard */
-        #orientation-msg {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 10000; flex-direction: column; justify-content: center;
-            align-items: center; color: var(--gold); text-align: center;
-        }
-        @media (orientation: portrait) { #orientation-msg { display: flex; } }
-
-        /* Smooth Start Button */
-        #overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 9999; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; transition: opacity 1s;
+        /* Smooth Start Screen */
+        #intro {
+            position: fixed; inset: 0; background: #000; z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 1.2s;
         }
 
         .royal-btn {
             background: transparent; border: 1px solid var(--gold);
-            padding: 15px 40px; color: var(--gold); font-family: 'Cinzel';
-            letter-spacing: 3px; cursor: pointer; transition: 0.4s;
+            padding: 18px 45px; color: var(--gold); font-family: 'Cinzel';
+            letter-spacing: 5px; cursor: pointer; transition: 0.5s; margin-top: 40px;
         }
-        .royal-btn:hover { background: var(--gold); color: #000; }
+        .royal-btn:hover { background: var(--gold); color: #000; box-shadow: 0 0 40px var(--gold); }
 
+        /* Orientation Message */
+        #rotate {
+            display: none; position: fixed; inset: 0; background: #000; z-index: 10000;
+            flex-direction: column; justify-content: center; align-items: center; color: var(--gold);
+        }
+        @media (orientation: portrait) { #rotate { display: flex; } }
     </style>
 </head>
-<body>
+<body onclick="nextSlide()">
 
-    <div class="royal-bg"></div>
+    <div class="bg-layer"></div>
     
-    <div id="orientation-msg">
-        <h1 style="font-size: 2rem;">Turn to Landscape</h1>
-        <p>Rotate your phone for the cinematic experience.</p>
+    <div id="rotate">
+        <h1 style="font-size: 1.5rem;">Please Rotate to Landscape</h1>
+        <p>This experience is built for cinematic viewing.</p>
     </div>
 
-    <div id="overlay">
-        <h2 style="font-size: 4rem;">Kinjal</h2>
-        <button class="royal-btn" onclick="startApp()">Enter Her World</button>
+    <div id="intro">
+        <h2 style="font-size: 5rem;">Kinjal</h2>
+        <button class="royal-btn" onclick="openGift(event)">ENTER HER STORY</button>
     </div>
 
-    <div id="slider">
+    <div class="slider" id="mainSlider">
         <section class="slide active">
-            <div class="content-card">
-                <div class="text-section">
-                    <h2>Happy Birthday</h2>
-                    <h1>KINJAL</h1>
-                    <p>To my sister by choice, my rock, and my bestest friend. Today the world celebrates you.</p>
+            <div class="card">
+                <div class="img-side">
+                    <img src="uploaded:WhatsApp Image 2026-05-05 at 11.45.02 PM.jpeg">
                 </div>
-                <div class="img-section">
-                    <img src="WhatsApp Image 2026-05-05 at 11.45.02 PM.jpeg">
+                <div class="text-side">
+                    <h2>Dearest...</h2>
+                    <h1>KINJAL</h1>
+                    <p>To my sister by heart and soul. Today, the world is a little brighter because it's your day. Welcome to your birthday journey.</p>
                 </div>
             </div>
         </section>
 
         <section class="slide">
-            <div class="content-card">
-                <div class="text-section">
+            <div class="card">
+                <div class="img-side">
+                    <img src="uploaded:Screenshot 2026-05-05 235717.png">
+                </div>
+                <div class="text-side">
                     <h2>Memories</h2>
                     <h1>365 DAYS</h1>
-                    <p>Changing schools was hard, but that one year we spent laughing together is etched in my soul. Distance means nothing to us.</p>
-                </div>
-                <div class="img-section">
-                    <img src="Screenshot 2026-05-05 235717.png">
+                    <p>Changing schools was tough, but the year we spent laughing together is the golden chapter of my life. Distance can never break us.</p>
                 </div>
             </div>
         </section>
 
         <section class="slide">
-            <div class="content-card">
-                <div class="text-section">
+            <div class="card">
+                <div class="img-side">
+                    <img src="uploaded:Screenshot 2026-05-05 235501.png">
+                </div>
+                <div class="text-side">
                     <h2>My Rock</h2>
                     <h1>THE BEST</h1>
-                    <p>You cared for me at my worst. You listened when no one else did. You aren't just a sister; you're my hero.</p>
-                </div>
-                <div class="img-section">
-                    <img src="Screenshot 2026-05-05 235501.png">
+                    <p>You cared for me at my worst. You stayed when things got hard. You aren't just a sister; you're the family I chose.</p>
                 </div>
             </div>
         </section>
 
         <section class="slide">
-            <div class="content-card">
-                <div class="text-section">
+            <div class="card">
+                <div class="img-side">
+                    <img src="uploaded:Screenshot 2026-05-05 235756.png">
+                </div>
+                <div class="text-side">
                     <h2>Forever</h2>
                     <h1>A PROMISE</h1>
-                    <p>Stay radiant, stay graceful, and never forget that I'm just a call away. I love you, Sister.</p>
-                </div>
-                <div class="img-section">
-                    <img src="Screenshot 2026-05-05 235756.png">
+                    <p>Stay radiant, stay graceful, and never forget that I'm just a call away. I love you more than words can say. Happy Birthday!</p>
                 </div>
             </div>
         </section>
     </div>
 
-    <div class="dots" id="dot-container"></div>
+    <div class="dots" id="dots"></div>
 
     <script>
-        const slider = document.getElementById('slider');
+        let currentIdx = 0;
+        const slider = document.getElementById('mainSlider');
         const slides = document.querySelectorAll('.slide');
-        const dotsContainer = document.getElementById('dot-container');
-        let index = 0;
-        let startX = 0;
+        const dotContainer = document.getElementById('dots');
+        let touchStartX = 0;
 
-        // Initialize Dots
+        // Create Dots
         slides.forEach((_, i) => {
-            const dot = document.createElement('div');
-            dot.className = `dot ${i === 0 ? 'active' : ''}`;
-            dotsContainer.appendChild(dot);
+            const d = document.createElement('div');
+            d.className = `dot ${i === 0 ? 'active' : ''}`;
+            dotContainer.appendChild(d);
         });
 
-        function updateSlider() {
-            slider.style.transform = `translateX(-${index * 100}vw)`;
-            document.querySelectorAll('.dot').forEach((dot, i) => {
-                dot.classList.toggle('active', i === index);
+        function update() {
+            slider.style.transform = `translateX(-${currentIdx * 100}%)`;
+            document.querySelectorAll('.dot').forEach((d, i) => {
+                d.classList.toggle('active', i === currentIdx);
             });
-            slides.forEach((slide, i) => {
-                slide.classList.toggle('active', i === index);
+            slides.forEach((s, i) => {
+                s.classList.toggle('active', i === currentIdx);
             });
         }
 
-        // Touch Swipe Logic for Phone
-        window.addEventListener('touchstart', (e) => startX = e.touches[0].clientX);
-        window.addEventListener('touchend', (e) => {
-            const endX = e.changedTouches[0].clientX;
-            if (startX - endX > 50 && index < slides.length - 1) index++;
-            if (startX - endX < -50 && index > 0) index--;
-            updateSlider();
-        });
-
-        // Tap or Click to Next
-        window.addEventListener('click', () => {
-            if (index < slides.length - 1) index++;
-            else index = 0;
-            updateSlider();
-        });
-
-        function startApp() {
-            document.getElementById('overlay').style.opacity = '0';
-            setTimeout(() => document.getElementById('overlay').style.display = 'none', 1000);
+        function nextSlide() {
+            currentIdx = (currentIdx + 1) % slides.length;
+            update();
         }
 
-        // Handle dynamic resizing
-        window.onresize = updateSlider;
+        // Swipe for Mobile
+        window.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
+        window.addEventListener('touchend', e => {
+            const touchEndX = e.changedTouches[0].clientX;
+            if (touchStartX - touchEndX > 50) nextSlide(); // Swipe Left
+            if (touchStartX - touchEndX < -50) { // Swipe Right
+                currentIdx = (currentIdx - 1 + slides.length) % slides.length;
+                update();
+            }
+        });
+
+        function openGift(e) {
+            e.stopPropagation();
+            const intro = document.getElementById('intro');
+            intro.style.opacity = '0';
+            setTimeout(() => intro.style.display = 'none', 1200);
+        }
+
+        window.addEventListener('resize', update);
     </script>
 </body>
 </html>
