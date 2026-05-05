@@ -2,253 +2,258 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Kinjal | The Royal Experience</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Great+Vibes&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Kinjal's 15th | The Celestial Experience</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Dancing+Script:wght@700&family=Montserrat:wght@200;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --gold: #d4af37;
-            --dark: #050505;
-            --glass: rgba(255, 255, 255, 0.05);
-            --transition: 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+            --gold: #f3cf7a;
+            --rose: #ffafbd;
+            --dark: #080810;
+            --accent: #e0ac9d;
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body, html {
             width: 100%; height: 100%;
-            overflow: hidden;
             background: var(--dark);
-            font-family: 'Montserrat', sans-serif;
             color: #fff;
-            touch-action: none;
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
         }
 
-        /* Royal Animated Background */
-        .bg-layer {
+        /* Animated Nebula Background */
+        .nebula {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #050505 100%);
-            z-index: -1;
+            background: radial-gradient(circle at 20% 30%, #1a1a2e 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, #16213e 0%, transparent 40%);
+            z-index: -2;
+            filter: blur(50px);
         }
 
-        /* Slide Container */
-        .slider {
+        canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
+
+        /* Smooth Slide Engine */
+        .main-container {
+            width: 100vw; height: 100vh;
             display: flex;
-            width: 100%; height: 100%;
-            transition: transform var(--transition);
-            will-change: transform;
+            transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
         .slide {
-            min-width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            min-width: 100vw; height: 100vh;
+            display: flex; justify-content: center; align-items: center;
             padding: 20px;
         }
 
-        /* Responsive Content Card */
-        .card {
-            width: 100%;
-            max-width: 1000px;
-            height: 85vh;
-            background: var(--glass);
+        .royal-card {
+            width: 90%; max-width: 1100px; height: 80vh;
+            background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(25px);
-            border: 1px solid rgba(212, 175, 55, 0.25);
-            border-radius: 24px;
-            display: flex;
-            flex-direction: row;
-            overflow: hidden;
-            box-shadow: 0 50px 100px rgba(0,0,0,0.9);
+            border: 1px solid rgba(243, 207, 122, 0.2);
+            border-radius: 40px;
+            display: flex; overflow: hidden;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
         }
 
-        @media (max-width: 768px) {
-            .card { flex-direction: column; height: 90vh; }
-            .img-side { height: 50% !important; }
-            .text-side { height: 50% !important; padding: 30px !important; }
-            h1 { font-size: 2.5rem !important; }
+        @media (max-width: 800px) {
+            .royal-card { flex-direction: column; }
+            .content { padding: 30px !important; }
+            h1 { font-size: 2.8rem !important; }
         }
 
-        .img-side {
-            flex: 1.2;
-            height: 100%;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .img-side img {
-            width: 100%; height: 100%;
-            object-fit: cover;
+        .image-side { flex: 1.2; position: relative; overflow: hidden; }
+        .image-side img {
+            width: 100%; height: 100%; object-fit: cover;
             transition: transform 2s ease;
         }
 
         .slide.active img { transform: scale(1.1); }
 
-        .text-side {
-            flex: 1;
-            padding: 60px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            text-align: left;
+        .content {
+            flex: 1; padding: 60px;
+            display: flex; flex-direction: column; justify-content: center;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), transparent);
         }
 
-        h1 { font-family: 'Cinzel', serif; font-size: 3.5rem; color: var(--gold); margin-bottom: 10px; }
-        h2 { font-family: 'Great Vibes', cursive; font-size: 3rem; color: #f1d592; margin-bottom: 20px; }
-        p { font-size: 1.1rem; line-height: 1.7; color: #ddd; font-weight: 300; }
+        h1 { font-family: 'Cinzel Decorative', serif; font-size: 4rem; color: var(--gold); text-shadow: 0 0 20px rgba(243, 207, 122, 0.5); }
+        h2 { font-family: 'Dancing Script', cursive; font-size: 3rem; color: var(--rose); margin-bottom: 10px; }
+        p { font-weight: 200; line-height: 1.8; color: #d1d1d1; font-size: 1.1rem; }
 
-        /* Navigation */
-        .dots {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            display: flex; gap: 12px; z-index: 100;
+        /* Floating Nav */
+        .nav-dots {
+            position: fixed; right: 30px; top: 50%; transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 20px; z-index: 100;
         }
         .dot {
-            width: 8px; height: 8px; border-radius: 50%;
-            background: rgba(212, 175, 55, 0.3); transition: 0.4s;
+            width: 12px; height: 12px; border: 1px solid var(--gold); border-radius: 50%;
+            transition: 0.4s; cursor: pointer;
         }
-        .dot.active { background: var(--gold); transform: scale(1.6); box-shadow: 0 0 15px var(--gold); }
+        .dot.active { background: var(--gold); height: 40px; border-radius: 20px; }
 
-        /* Smooth Start Screen */
-        #intro {
+        /* Entrance Overlay */
+        #gate {
             position: fixed; inset: 0; background: #000; z-index: 9999;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: opacity 1.2s;
+            transition: 1.5s cubic-bezier(0.77, 0, 0.175, 1);
         }
 
-        .royal-btn {
+        .enter-btn {
             background: transparent; border: 1px solid var(--gold);
-            padding: 18px 45px; color: var(--gold); font-family: 'Cinzel';
-            letter-spacing: 5px; cursor: pointer; transition: 0.5s; margin-top: 40px;
+            padding: 20px 50px; color: var(--gold); font-family: 'Cinzel Decorative';
+            font-size: 1.2rem; cursor: pointer; transition: 0.5s;
+            letter-spacing: 5px; margin-top: 30px;
         }
-        .royal-btn:hover { background: var(--gold); color: #000; box-shadow: 0 0 40px var(--gold); }
+        .enter-btn:hover { background: var(--gold); color: #000; box-shadow: 0 0 50px var(--gold); }
 
-        /* Orientation Message */
-        #rotate {
-            display: none; position: fixed; inset: 0; background: #000; z-index: 10000;
-            flex-direction: column; justify-content: center; align-items: center; color: var(--gold);
-        }
-        @media (orientation: portrait) { #rotate { display: flex; } }
     </style>
 </head>
-<body onclick="nextSlide()">
+<body>
 
-    <div class="bg-layer"></div>
-    
-    <div id="rotate">
-        <h1 style="font-size: 1.5rem;">Please Rotate to Landscape</h1>
-        <p>This experience is built for cinematic viewing.</p>
+    <div class="nebula"></div>
+    <canvas id="stars"></canvas>
+
+    <div id="gate">
+        <h2 style="font-size: 5rem; letter-spacing: 10px;">KINJAL</h2>
+        <p style="color: var(--gold); font-weight: 500;">SHE IS TURNING 15</p>
+        <button class="enter-btn" onclick="unlock()">OPEN HER WORLD</button>
     </div>
 
-    <div id="intro">
-        <h2 style="font-size: 5rem;">Kinjal</h2>
-        <button class="royal-btn" onclick="openGift(event)">ENTER HER STORY</button>
-    </div>
+    <div class="nav-dots" id="dots"></div>
 
-    <div class="slider" id="mainSlider">
-        <section class="slide active">
-            <div class="card">
-                <div class="img-side">
-                    <img src="uploaded:WhatsApp Image 2026-05-05 at 11.45.02 PM.jpeg">
+    <div class="main-container" id="container">
+        
+        <div class="slide active">
+            <div class="royal-card">
+                <div class="image-side">
+                    <img src="WhatsApp Image 2026-05-05 at 11.45.02 PM.jpeg" alt="Kinjal">
                 </div>
-                <div class="text-side">
-                    <h2>Dearest...</h2>
+                <div class="content">
+                    <h2>Chapter 15</h2>
                     <h1>KINJAL</h1>
-                    <p>To my sister by heart and soul. Today, the world is a little brighter because it's your day. Welcome to your birthday journey.</p>
+                    <p>Level 15 unlocked! You’ve grown into a beautiful soul with a heart of gold. Today is the start of your most magical year yet.</p>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section class="slide">
-            <div class="card">
-                <div class="img-side">
-                    <img src="uploaded:Screenshot 2026-05-05 235717.png">
+        <div class="slide">
+            <div class="royal-card">
+                <div class="image-side">
+                    <img src="Screenshot 2026-05-05 235717.png" alt="Memories">
                 </div>
-                <div class="text-side">
-                    <h2>Memories</h2>
-                    <h1>365 DAYS</h1>
-                    <p>Changing schools was tough, but the year we spent laughing together is the golden chapter of my life. Distance can never break us.</p>
+                <div class="content">
+                    <h2>The Best Part</h2>
+                    <h1>OF MY LIFE</h1>
+                    <p>Changing schools didn't change us. Those 365 days of classroom laughs are my favorite story to tell. You are my forever sister.</p>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section class="slide">
-            <div class="card">
-                <div class="img-side">
-                    <img src="uploaded:Screenshot 2026-05-05 235501.png">
+        <div class="slide">
+            <div class="royal-card">
+                <div class="image-side">
+                    <img src="Screenshot 2026-05-05 235501.png" alt="Hero">
                 </div>
-                <div class="text-side">
-                    <h2>My Rock</h2>
-                    <h1>THE BEST</h1>
-                    <p>You cared for me at my worst. You stayed when things got hard. You aren't just a sister; you're the family I chose.</p>
+                <div class="content">
+                    <h2>My Anchor</h2>
+                    <h1>MY BESTEST</h1>
+                    <p>You cared for me at my worst. You were the only one who truly stayed. Blood or not, you are the best sister anyone could ever dream of.</p>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <section class="slide">
-            <div class="card">
-                <div class="img-side">
-                    <img src="uploaded:Screenshot 2026-05-05 235756.png">
+        <div class="slide">
+            <div class="royal-card">
+                <div class="image-side">
+                    <img src="Screenshot 2026-05-05 235756.png" alt="Forever">
                 </div>
-                <div class="text-side">
-                    <h2>Forever</h2>
-                    <h1>A PROMISE</h1>
-                    <p>Stay radiant, stay graceful, and never forget that I'm just a call away. I love you more than words can say. Happy Birthday!</p>
+                <div class="content">
+                    <h2>The Promise</h2>
+                    <h1>ALWAYS</h1>
+                    <p>Stay radiant, Princess Kinjal. No matter where we go, I'm just a heartbeat away. Happy 15th Birthday to my favorite human.</p>
                 </div>
             </div>
-        </section>
+        </div>
+
     </div>
-
-    <div class="dots" id="dots"></div>
 
     <script>
-        let currentIdx = 0;
-        const slider = document.getElementById('mainSlider');
+        const container = document.getElementById('container');
         const slides = document.querySelectorAll('.slide');
         const dotContainer = document.getElementById('dots');
-        let touchStartX = 0;
+        let index = 0;
 
-        // Create Dots
+        // Initialize Nav Dots
         slides.forEach((_, i) => {
-            const d = document.createElement('div');
-            d.className = `dot ${i === 0 ? 'active' : ''}`;
-            dotContainer.appendChild(d);
+            const dot = document.createElement('div');
+            dot.className = `dot ${i === 0 ? 'active' : ''}`;
+            dot.onclick = () => { index = i; update(); };
+            dotContainer.appendChild(dot);
         });
 
         function update() {
-            slider.style.transform = `translateX(-${currentIdx * 100}%)`;
-            document.querySelectorAll('.dot').forEach((d, i) => {
-                d.classList.toggle('active', i === currentIdx);
-            });
-            slides.forEach((s, i) => {
-                s.classList.toggle('active', i === currentIdx);
-            });
+            container.style.transform = `translateX(-${index * 100}vw)`;
+            document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === index));
+            slides.forEach((s, i) => s.classList.toggle('active', i === index));
         }
 
-        function nextSlide() {
-            currentIdx = (currentIdx + 1) % slides.length;
-            update();
+        function unlock() {
+            document.getElementById('gate').style.transform = "translateY(-100%)";
+            document.getElementById('gate').style.opacity = "0";
         }
 
-        // Swipe for Mobile
-        window.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
+        // Auto-Play & Swipe
+        let startX = 0;
+        window.addEventListener('touchstart', e => startX = e.touches[0].clientX);
         window.addEventListener('touchend', e => {
-            const touchEndX = e.changedTouches[0].clientX;
-            if (touchStartX - touchEndX > 50) nextSlide(); // Swipe Left
-            if (touchStartX - touchEndX < -50) { // Swipe Right
-                currentIdx = (currentIdx - 1 + slides.length) % slides.length;
-                update();
-            }
+            const diff = startX - e.changedTouches[0].clientX;
+            if (diff > 50 && index < slides.length - 1) index++;
+            if (diff < -50 && index > 0) index--;
+            update();
         });
 
-        function openGift(e) {
-            e.stopPropagation();
-            const intro = document.getElementById('intro');
-            intro.style.opacity = '0';
-            setTimeout(() => intro.style.display = 'none', 1200);
+        // Background Stars Animation
+        const canvas = document.getElementById('stars');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         }
 
-        window.addEventListener('resize', update);
+        class Star {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2;
+                this.speed = Math.random() * 0.5;
+            }
+            draw() {
+                ctx.fillStyle = "white";
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            update() {
+                this.y -= this.speed;
+                if (this.y < 0) this.y = canvas.height;
+            }
+        }
+
+        function initStars() {
+            for (let i = 0; i < 150; i++) stars.push(new Star());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(s => { s.update(); s.draw(); });
+            requestAnimationFrame(animate);
+        }
+
+        window.onresize = resize;
+        resize(); initStars(); animate();
     </script>
 </body>
 </html>
