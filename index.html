@@ -2,317 +2,238 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Kinjal | The Magical Birthday</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital@1&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Kinjal's Disney Birthday</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
     <style>
         :root {
-            --disney-blue: #16213e;
-            --disney-dark-blue: #0f172a;
-            --rose-gold: #e0ac9d;
-            --soft-gold: #f3cf7a;
-            --white-glass: rgba(255, 255, 255, 0.05);
+            --disney-blue: #004aad;
+            --midnight: #001a33;
+            --silver: #e0e0e0;
+            --magic: #a5f3fc;
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
 
         body, html {
-            margin: 0; padding: 0;
             width: 100%; height: 100%;
             overflow: hidden;
-            background-color: var(--disney-dark-blue);
+            background: var(--midnight);
             font-family: 'Montserrat', sans-serif;
             color: #fff;
+            touch-action: none;
         }
 
-        /* Magical Background with Falling Stars */
-        .bg-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, #101820 0%, #16213e 100%);
+        /* Magical Sky Background */
+        .sky {
+            position: fixed; inset: 0;
+            background: linear-gradient(to bottom, #001a33 0%, #004aad 100%);
             z-index: -2;
         }
 
-        .falling-stars {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: -1;
-        }
-        
-        .star-dust {
-            position: absolute; color: var(--rose-gold); opacity: 0.5;
-            animation: fairyDust 10s linear infinite; font-size: 10px;
+        .stars-container {
+            position: fixed; inset: 0;
+            z-index: -1;
+            pointer-events: none;
         }
 
-        @keyframes fairyDust {
-            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.5; }
-            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        .fairy-dust {
+            position: absolute; color: white; opacity: 0.6;
+            animation: fall 8s linear infinite;
         }
 
-        #viewport {
-            width: 100vw; height: 100vh;
-            display: flex; justify-content: center; align-items: center;
+        @keyframes fall {
+            from { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 1; }
+            to { transform: translateY(110vh) translateX(50px) rotate(360deg); opacity: 0; }
         }
 
-        #slides-wrapper {
-            width: 1280px; height: 720px;
-            position: relative;
-            transform-origin: center center;
-            border: 2px solid var(--rose-gold);
-            background: rgba(16, 24, 32, 0.9);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 0 50px rgba(224, 172, 157, 0.3);
+        /* Responsive Slider */
+        .slider {
+            display: flex; width: 100%; height: 100%;
+            transition: transform 0.8s cubic-bezier(0.45, 0, 0.55, 1);
+            will-change: transform;
         }
 
-        /* Slide Animation - Cinematic Storybook */
         .slide {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            padding: 80px; display: none; grid-template-columns: 1.1fr 0.9fr;
-            gap: 60px; align-items: center;
-            transition: all 1.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+            min-width: 100%; height: 100%;
+            display: flex; justify-content: center; align-items: center;
+            padding: 20px;
         }
 
-        .slide.active { display: grid; animation: storybookOpen 1.8s forwards; }
-
-        @keyframes storybookOpen {
-            0% { opacity: 0; transform: scale(1.05) rotateY(-10deg); filter: blur(5px); }
-            100% { opacity: 1; transform: scale(1) rotateY(0deg); filter: blur(0); }
+        /* The Storybook Card */
+        .card {
+            width: 95%; max-width: 1100px; height: 85vh;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            display: flex; overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
         }
 
-        /* Disney Typography */
-        h1 { font-family: 'Dancing Script', cursive; font-size: 90px; margin: 0; color: var(--rose-gold); letter-spacing: -2px; }
-        h2 { font-family: 'Playfair Display', serif; font-style: italic; font-size: 50px; color: var(--soft-gold); margin: 0; font-weight: 400; }
-        p { font-size: 22px; line-height: 1.8; color: #d1d1d1; font-weight: 300; }
-        .disney-point { font-family: 'Montserrat', sans-serif; font-size: 24px; color: var(--soft-gold); text-transform: uppercase; letter-spacing: 2px; }
-
-        /* Storybook Image Frame */
-        .disney-frame {
-            position: relative; width: 100%; height: 580px;
-            padding: 18px; background: linear-gradient(135deg, var(--rose-gold) 0%, #b08d57 100%);
-            border-radius: 10px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.7);
-        }
-        .disney-frame::before {
-            content: ''; position: absolute; top: 10px; left: 10px; right: 10px; bottom: 10px;
-            border: 2px solid rgba(255,255,255,0.2); border-radius: 5px; pointer-events: none;
+        @media (max-width: 850px) {
+            .card { flex-direction: column; }
+            .img-side { height: 45% !important; }
+            .text-side { height: 55% !important; padding: 25px !important; }
+            h1 { font-size: 2.5rem !important; }
+            h2 { font-size: 1.8rem !important; }
         }
 
-        .disney-frame img { width: 100%; height: 100%; object-fit: cover; border-radius: 5px; }
+        .img-side { flex: 1.2; height: 100%; overflow: hidden; position: relative; border-right: 2px solid rgba(255, 255, 255, 0.1); }
+        .img-side img { width: 100%; height: 100%; object-fit: cover; transition: 2s ease; }
+        .slide.active img { transform: scale(1.1); }
 
-        /* Bullet Points - Modern Disney */
-        .point-list { list-style: none; padding: 0; margin-top: 30px; }
-        .point-list li { display: flex; align-items: center; gap: 20px; margin-bottom: 25px; font-size: 24px; color: #d1d1d1; font-weight: 300; }
-        .point-list li i { color: var(--rose-gold); font-size: 28px; }
+        .text-side { flex: 1; padding: 60px; display: flex; flex-direction: column; justify-content: center; }
 
-        /* Start Screen - Cinderella's Invitation */
-        #storybook-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 9999; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; transition: 2.5s cubic-bezier(0.77, 0, 0.175, 1);
+        h1 { font-family: 'Dancing Script', cursive; font-size: 4.5rem; color: var(--magic); text-shadow: 0 0 20px rgba(165, 243, 252, 0.5); }
+        h2 { font-family: 'Playfair Display', serif; font-style: italic; font-size: 2.5rem; margin-bottom: 15px; color: #fff; }
+        p { font-size: 1.1rem; line-height: 1.7; color: #e0e0e0; font-weight: 300; }
+
+        /* Intro Entrance */
+        #entrance {
+            position: fixed; inset: 0; background: #000; z-index: 10000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 1.5s ease-in-out;
         }
 
-        .btn-magical {
-            background: transparent; border: 2px solid var(--rose-gold);
-            padding: 20px 60px; color: var(--rose-gold); font-family: 'Montserrat', sans-serif;
-            font-size: 20px; letter-spacing: 5px; cursor: pointer; transition: 0.5s;
-            margin-top: 60px; text-transform: uppercase; font-weight: 600;
-            border-radius: 50px;
+        .magic-btn {
+            background: transparent; border: 2px solid #fff;
+            padding: 15px 40px; color: #fff; font-family: 'Dancing Script';
+            font-size: 2rem; border-radius: 50px; cursor: pointer; transition: 0.5s;
+            margin-top: 30px; box-shadow: 0 0 15px #fff;
         }
-        .btn-magical:hover { background: var(--rose-gold); color: #000; box-shadow: 0 0 40px var(--rose-gold); }
+        .magic-btn:hover { background: #fff; color: var(--midnight); box-shadow: 0 0 40px #fff; }
 
-        .disney-progress {
-            position: fixed; top: 0; left: 0; height: 5px; background: var(--rose-gold);
-            width: 0%; z-index: 10001; transition: 0.5s;
-        }
-
-        .controls {
-            position: absolute; bottom: 40px; right: 80px; display: flex; gap: 30px; z-index: 100;
-        }
-        .magic-nav { color: rgba(224, 172, 157, 0.5); font-size: 35px; cursor: pointer; transition: 0.3s; }
-        .magic-nav:hover { color: var(--soft-gold); transform: scale(1.2); }
-
-        /* Tablet/Mobile Adjustments */
-        @media (max-width: 1300px) { #slides-wrapper { transform: scale(0.8); } }
-        @media (max-width: 1000px) {
-            #slides-wrapper { transform: scale(0.6); }
-            .slide { grid-template-columns: 1fr; text-align: center; padding: 40px; }
-            .disney-frame { height: 400px; }
-            h1 { font-size: 60px; }
-            h2 { font-size: 35px; }
-        }
+        /* Navigation */
+        .nav-dots { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; z-index: 100; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.3); transition: 0.4s; }
+        .dot.active { background: var(--magic); transform: scale(1.5); box-shadow: 0 0 15px var(--magic); }
 
     </style>
 </head>
 <body onclick="nextSlide()">
 
-    <div class="bg-overlay"></div>
-    <div class="falling-stars" id="fairy-dust-container"></div>
-    <div class="disney-progress" id="prog"></div>
+    <div class="sky"></div>
+    <div class="stars-container" id="stars"></div>
 
-    <div id="storybook-overlay">
-        <i class="fas fa-fort-awesome fa-5x" style="color: var(--rose-gold); margin-bottom: 30px;"></i>
-        <h1 style="color: #fff; font-size: 80px; letter-spacing: 2px;">Kinjal</h1>
-        <h2>A Storybook of Memories</h2>
-        <div class="ornament" style="width: 150px; height: 2px; background: var(--rose-gold); margin: 30px 0;"></div>
-        <button class="btn-magical" id="start-btn">Open The Magic</button>
+    <div id="entrance">
+        <i class="fas fa-crown fa-5x" style="color: white; margin-bottom: 20px;"></i>
+        <h1 style="color: white; font-size: 5rem;">Kinjal</h1>
+        <p style="letter-spacing: 5px;">TURNING 15 IN MAGIC</p>
+        <button class="magic-btn" onclick="openMagic(event)">Enter the Kingdom</button>
     </div>
 
-    <div id="viewport">
-        <div id="slides-wrapper">
-            
-            <div class="slide active">
-                <div class="content">
-                    <p class="disney-point">Once Upon A Time...</p>
-                    <h1>Happy Birthday<br>Kinjal</h1>
-                    <h2>The Fairest of Them All</h2>
-                    <p>Celebrating the grace, the beauty, and the magical soul that you are. Welcome to your personal storybook, Princess.</p>
+    <div class="slider" id="mainSlider">
+        <section class="slide active">
+            <div class="card">
+                <div class="img-side">
+                    <img src="WhatsApp Image 2026-05-05 at 11.45.02 PM.jpeg">
                 </div>
-                <div class="disney-frame">
-                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&q=80" alt="Disney Magic">
+                <div class="text-side">
+                    <h2>Chapter 15</h2>
+                    <h1>Kinjal</h1>
+                    <p>Once upon a time, a princess was born. At 15, you are the magic in our lives. Welcome to your enchanted birthday story.</p>
                 </div>
             </div>
+        </section>
 
-            <div class="slide">
-                <div class="content">
-                    <h2>A Tale of Two Schools</h2>
-                    <h1>Changed<br>My School</h1>
-                    <p>Changing schools was hard, because I miss seeing you every day. But our friendship doesn’t need a building to survive.</p>
-                    <p style="margin-top: 15px; color: var(--rose-gold);">No matter where we go, I carry those shared classroom laughs with me.</p>
+        <section class="slide">
+            <div class="card">
+                <div class="img-side">
+                    <img src="Screenshot 2026-05-05 235717.png">
                 </div>
-                <div class="disney-frame">
-                    <img src="https://images.unsplash.com/photo-1546410531-bb4caa190211?auto=format&fit=crop&q=80" alt="School Memories">
+                <div class="text-side">
+                    <h2>The Magic Year</h2>
+                    <h1>Memories</h1>
+                    <p>Changing schools was a twist in the plot, but those 365 days of classroom laughter are my favorite part of the story. I miss you every day!</p>
                 </div>
             </div>
+        </section>
 
-            <div class="slide">
-                <div class="disney-frame">
-                    <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&q=80" alt="Laughter">
+        <section class="slide">
+            <div class="card">
+                <div class="img-side">
+                    <img src="Screenshot 2025-05-05 235501.png">
                 </div>
-                <div class="content">
-                    <p class="disney-point">Chapter 1: The Magic Year</p>
-                    <h1>365 Days<br>Of Us</h1>
-                    <h2>Laughed A Lot</h2>
-                    <p>I miss every single memory made in that one incredible year. You aren't my sister by blood, but you are just like that in my heart.</p>
+                <div class="text-side">
+                    <h2>My Fairy Godmother</h2>
+                    <h1>You Cared</h1>
+                    <p>When my world was dark, you were the light. You cared for me at my worst. Blood or not, you are the best sister a person could wish for.</p>
                 </div>
             </div>
+        </section>
 
-            <div class="slide">
-                <div class="content">
-                    <h2>The Rock of My Heart</h2>
-                    <h1>Cared for Me</h1>
-                    <p>You meant a lot to me when you cared for me at my worst. That’s what true family does. You are the best sister I could ever ask for.</p>
+        <section class="slide">
+            <div class="card">
+                <div class="img-side">
+                    <img src="Screenshot 2026-05-05 235756.png">
                 </div>
-                <div class="disney-frame">
-                    <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&q=80" alt="Support">
-                </div>
-            </div>
-
-            <div class="slide">
-                <div style="grid-column: span 2; text-align: center;">
-                    <h2>A Princess’s Qualities</h2>
-                    <h1>Why You Are Special</h1>
-                    <ul class="point-list" style="display: flex; flex-direction: column; align-items: center; max-width: 800px; margin: 40px auto 0;">
-                        <li><i class="fas fa-heart fa-bounce"></i> <span><strong>Caring:</strong> You have a heart of pure rose gold.</span></li>
-                        <li><i class="fas fa-star fa-spin"></i> <span><strong>Radiant:</strong> Your light shines brighter than any star.</span></li>
-                        <li><i class="fas fa-hands-helping fa-pulse"></i> <span><strong>Selfless:</strong> Always putting others before yourself.</span></li>
-                        <li><i class="fas fa-infinity fa-fade"></i> <span><strong>1 Bond:</strong> An unbreakable sisterly connection distance can't break.</span></li>
-                    </ul>
+                <div class="text-side">
+                    <h2>The Promise</h2>
+                    <h1>Forever</h1>
+                    <p>Sisters forever, distance never. May your 15th year be full of dreams coming true. Happy Birthday to my favorite human!</p>
                 </div>
             </div>
-
-            <div class="slide">
-                <div class="disney-frame">
-                    <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&q=80" alt="Forever">
-                </div>
-                <div class="content">
-                    <p class="disney-point">The Final Chapter</p>
-                    <h1>Our Eternal<br>Promise</h1>
-                    <p>Changing schools was just the beginning of a new chapter for us. The distance doesn't break our magic.</p>
-                    <p style="color: var(--soft-gold); font-weight: 600;">Stay radiant, stay graceful. Sisters forever.</p>
-                </div>
-            </div>
-
-            <div class="slide" style="grid-template-columns: 1fr; text-align: center;">
-                <div class="content">
-                    <i class="fas fa-crown" style="color: var(--rose-gold); font-size: 80px; margin-bottom: 30px;"></i>
-                    <h1>HAPPY BIRTHDAY KINJAL!</h1>
-                    <h2>May Your Day Be As Aesthetic As You Are.</h2>
-                    <p style="margin: 30px auto; color: var(--rose-gold); max-width: 800px;">To forever and more memories...</p>
-                    <button class="btn-magical" onclick="location.reload()">Re-Open The Magic</button>
-                </div>
-            </div>
-
-            <div class="controls">
-                <i class="fas fa-chevron-left magic-nav" onclick="event.stopPropagation(); prevSlide()"></i>
-                <i class="fas fa-chevron-right magic-nav" onclick="event.stopPropagation(); nextSlide()"></i>
-            </div>
-        </div>
+        </section>
     </div>
+
+    <div class="nav-dots" id="dots"></div>
 
     <script>
-        let current = 0;
+        let currentIdx = 0;
+        const slider = document.getElementById('mainSlider');
         const slides = document.querySelectorAll('.slide');
-        const wrapper = document.getElementById('slides-wrapper');
-        const progress = document.getElementById('prog');
-        const fairyDustContainer = document.getElementById('fairy-dust-container');
+        const dotsContainer = document.getElementById('dots');
+        let touchStartX = 0;
 
-        // Cinematic Scaling Engine
-        function scale() {
-            const s = Math.min(window.innerWidth / 1280, window.innerHeight / 720) * 0.98;
-            wrapper.style.transform = `scale(${s})`;
-        }
-        window.onresize = scale;
-        scale();
+        // Dots
+        slides.forEach((_, i) => {
+            const d = document.createElement('div');
+            d.className = `dot ${i === 0 ? 'active' : ''}`;
+            dotsContainer.appendChild(d);
+        });
 
-        // Slide Navigation
-        function showSlide(n) {
-            slides[current].classList.remove('active');
-            current = (n + slides.length) % slides.length;
-            slides[current].classList.add('active');
-            progress.style.width = ((current + 1) / slides.length * 100) + '%';
+        function update() {
+            slider.style.transform = `translateX(-${currentIdx * 100}%)`;
+            document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === currentIdx));
+            slides.forEach((s, i) => s.classList.toggle('active', i === currentIdx));
         }
 
-        function nextSlide() { showSlide(current + 1); }
-        function prevSlide() { showSlide(current - 1); }
+        function nextSlide() {
+            currentIdx = (currentIdx + 1) % slides.length;
+            update();
+        }
 
-        // Start Overlay
-        document.getElementById('start-btn').onclick = function(e) {
+        function openMagic(e) {
             e.stopPropagation();
-            document.getElementById('storybook-overlay').style.transform = 'translateY(-100%)';
-            document.getElementById('storybook-overlay').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('storybook-overlay').style.display = 'none';
-            }, 2500);
-            setInterval(nextSlide, 10000); // Autoplay every 10 seconds
-        };
-
-        // Shake for Mobile
-        let lastX;
-        window.ondevicemotion = function(e) {
-            let acc = e.accelerationIncludingGravity;
-            if (acc && Math.abs(acc.x - lastX) > 30) nextSlide();
-            lastX = acc.x;
+            document.getElementById('entrance').style.opacity = '0';
+            setTimeout(() => document.getElementById('entrance').style.display = 'none', 1500);
         }
 
-        // Generate Magical Fairy Dust
-        function createFairyDust() {
+        // Swipe for Mobile
+        window.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
+        window.addEventListener('touchend', e => {
+            const touchEndX = e.changedTouches[0].clientX;
+            if (touchStartX - touchEndX > 50) nextSlide();
+            if (touchStartX - touchEndX < -50) {
+                currentIdx = (currentIdx - 1 + slides.length) % slides.length;
+                update();
+            }
+        });
+
+        // Fairy Dust Generator
+        function createDust() {
+            const container = document.getElementById('stars');
             const star = document.createElement('i');
-            const icons = ['fa-star', 'fa-sparkles', 'fa-heart'];
-            const randomIcon = icons[Math.floor(Math.random() * icons.length)];
-            
-            star.className = `fas ${randomIcon} star-dust`;
+            star.className = 'fas fa-sparkles fairy-dust';
             star.style.left = Math.random() * 100 + 'vw';
-            star.style.animationDuration = (Math.random() * 5 + 7) + 's'; // random speed
-            star.style.fontSize = (Math.random() * 8 + 6) + 'px'; // random size
-            fairyDustContainer.appendChild(star);
-            
-            setTimeout(() => star.remove(), 10000);
+            star.style.fontSize = Math.random() * 15 + 5 + 'px';
+            star.style.animationDuration = Math.random() * 5 + 5 + 's';
+            container.appendChild(star);
+            setTimeout(() => star.remove(), 8000);
         }
-        setInterval(createFairyDust, 400); // generates new dust every 400ms
-
+        setInterval(createDust, 400);
     </script>
 </body>
 </html>
