@@ -3,237 +3,232 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Kinjal's Disney Birthday</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    <title>Kinjal's 15th | The Magical Kingdom</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Dancing+Script:wght@700&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <style>
         :root {
             --disney-blue: #004aad;
             --midnight: #001a33;
-            --silver: #e0e0e0;
-            --magic: #a5f3fc;
+            --magic-glow: #a5f3fc;
+            --glass: rgba(255, 255, 255, 0.1);
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body, html {
             width: 100%; height: 100%;
-            overflow: hidden;
-            background: var(--midnight);
+            background-color: var(--midnight);
             font-family: 'Montserrat', sans-serif;
             color: #fff;
-            touch-action: none;
+            overflow-x: hidden;
+            scroll-snap-type: y mandatory; /* Smooth locking of pages */
         }
 
-        /* Magical Sky Background */
-        .sky {
-            position: fixed; inset: 0;
-            background: linear-gradient(to bottom, #001a33 0%, #004aad 100%);
+        /* Magical Background Particles */
+        .stars {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, #002b5c 0%, #000a12 100%);
             z-index: -2;
         }
 
-        .stars-container {
-            position: fixed; inset: 0;
-            z-index: -1;
-            pointer-events: none;
-        }
-
         .fairy-dust {
-            position: absolute; color: white; opacity: 0.6;
-            animation: fall 8s linear infinite;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: -1;
         }
 
-        @keyframes fall {
-            from { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 1; }
-            to { transform: translateY(110vh) translateX(50px) rotate(360deg); opacity: 0; }
-        }
-
-        /* Responsive Slider */
-        .slider {
-            display: flex; width: 100%; height: 100%;
-            transition: transform 0.8s cubic-bezier(0.45, 0, 0.55, 1);
-            will-change: transform;
-        }
-
-        .slide {
-            min-width: 100%; height: 100%;
+        /* Page Layout */
+        section {
+            width: 100vw; height: 100vh;
             display: flex; justify-content: center; align-items: center;
+            scroll-snap-align: start;
             padding: 20px;
+            position: relative;
         }
 
-        /* The Storybook Card */
-        .card {
-            width: 95%; max-width: 1100px; height: 85vh;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 30px;
-            display: flex; overflow: hidden;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        .container {
+            width: 100%; max-width: 1200px;
+            height: 85vh;
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            overflow: hidden;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
         }
 
         @media (max-width: 850px) {
-            .card { flex-direction: column; }
-            .img-side { height: 45% !important; }
-            .text-side { height: 55% !important; padding: 25px !important; }
-            h1 { font-size: 2.5rem !important; }
-            h2 { font-size: 1.8rem !important; }
+            .container { grid-template-columns: 1fr; height: 90vh; }
+            .image-side { height: 40% !important; }
+            .content-side { height: 60% !important; padding: 30px !important; }
+            h1 { font-size: 3rem !important; }
         }
 
-        .img-side { flex: 1.2; height: 100%; overflow: hidden; position: relative; border-right: 2px solid rgba(255, 255, 255, 0.1); }
-        .img-side img { width: 100%; height: 100%; object-fit: cover; transition: 2s ease; }
-        .slide.active img { transform: scale(1.1); }
+        /* Image Side */
+        .image-side { position: relative; overflow: hidden; height: 100%; }
+        .image-side img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 2s ease-out;
+        }
+        section:hover img { transform: scale(1.1); }
 
-        .text-side { flex: 1; padding: 60px; display: flex; flex-direction: column; justify-content: center; }
-
-        h1 { font-family: 'Dancing Script', cursive; font-size: 4.5rem; color: var(--magic); text-shadow: 0 0 20px rgba(165, 243, 252, 0.5); }
-        h2 { font-family: 'Playfair Display', serif; font-style: italic; font-size: 2.5rem; margin-bottom: 15px; color: #fff; }
-        p { font-size: 1.1rem; line-height: 1.7; color: #e0e0e0; font-weight: 300; }
-
-        /* Intro Entrance */
-        #entrance {
-            position: fixed; inset: 0; background: #000; z-index: 10000;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: opacity 1.5s ease-in-out;
+        /* Content Side */
+        .content-side {
+            padding: 60px;
+            display: flex; flex-direction: column;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%);
         }
 
-        .magic-btn {
-            background: transparent; border: 2px solid #fff;
-            padding: 15px 40px; color: #fff; font-family: 'Dancing Script';
-            font-size: 2rem; border-radius: 50px; cursor: pointer; transition: 0.5s;
-            margin-top: 30px; box-shadow: 0 0 15px #fff;
-        }
-        .magic-btn:hover { background: #fff; color: var(--midnight); box-shadow: 0 0 40px #fff; }
+        h1 { font-family: 'Dancing Script', cursive; font-size: 5rem; color: var(--magic-glow); margin-bottom: 10px; }
+        h2 { font-family: 'Cinzel Decorative', serif; font-size: 1.5rem; letter-spacing: 5px; color: #fff; margin-bottom: 20px; }
+        p { font-size: 1.1rem; line-height: 1.8; color: #d1d1d1; font-weight: 300; }
 
-        /* Navigation */
-        .nav-dots { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; z-index: 100; }
-        .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.3); transition: 0.4s; }
-        .dot.active { background: var(--magic); transform: scale(1.5); box-shadow: 0 0 15px var(--magic); }
+        /* Animations */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 1s ease-out; }
+        .active .reveal { opacity: 1; transform: translateY(0); }
+
+        /* Floating Nav Dots */
+        .nav-dots {
+            position: fixed; right: 30px; top: 50%; transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 15px; z-index: 100;
+        }
+        .dot { width: 10px; height: 10px; border: 2px solid white; border-radius: 50%; transition: 0.3s; }
+        .dot.active { background: var(--magic-glow); height: 30px; border-radius: 10px; border-color: var(--magic-glow); }
+
+        /* Music and Buttons */
+        .start-btn {
+            background: var(--magic-glow); color: #000;
+            padding: 15px 40px; border: none; border-radius: 50px;
+            font-weight: 600; cursor: pointer; margin-top: 30px;
+            font-family: 'Montserrat'; transition: 0.3s;
+        }
+        .start-btn:hover { transform: scale(1.1); box-shadow: 0 0 30px var(--magic-glow); }
 
     </style>
 </head>
-<body onclick="nextSlide()">
+<body>
 
-    <div class="sky"></div>
-    <div class="stars-container" id="stars"></div>
-
-    <div id="entrance">
-        <i class="fas fa-crown fa-5x" style="color: white; margin-bottom: 20px;"></i>
-        <h1 style="color: white; font-size: 5rem;">Kinjal</h1>
-        <p style="letter-spacing: 5px;">TURNING 15 IN MAGIC</p>
-        <button class="magic-btn" onclick="openMagic(event)">Enter the Kingdom</button>
-    </div>
-
-    <div class="slider" id="mainSlider">
-        <section class="slide active">
-            <div class="card">
-                <div class="img-side">
-                    <img src="WhatsApp Image 2026-05-05 at 11.45.02 PM.jpeg">
-                </div>
-                <div class="text-side">
-                    <h2>Chapter 15</h2>
-                    <h1>Kinjal</h1>
-                    <p>Once upon a time, a princess was born. At 15, you are the magic in our lives. Welcome to your enchanted birthday story.</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="slide">
-            <div class="card">
-                <div class="img-side">
-                    <img src="Screenshot 2026-05-05 235717.png">
-                </div>
-                <div class="text-side">
-                    <h2>The Magic Year</h2>
-                    <h1>Memories</h1>
-                    <p>Changing schools was a twist in the plot, but those 365 days of classroom laughter are my favorite part of the story. I miss you every day!</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="slide">
-            <div class="card">
-                <div class="img-side">
-                    <img src="Screenshot 2025-05-05 235501.png">
-                </div>
-                <div class="text-side">
-                    <h2>My Fairy Godmother</h2>
-                    <h1>You Cared</h1>
-                    <p>When my world was dark, you were the light. You cared for me at my worst. Blood or not, you are the best sister a person could wish for.</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="slide">
-            <div class="card">
-                <div class="img-side">
-                    <img src="Screenshot 2026-05-05 235756.png">
-                </div>
-                <div class="text-side">
-                    <h2>The Promise</h2>
-                    <h1>Forever</h1>
-                    <p>Sisters forever, distance never. May your 15th year be full of dreams coming true. Happy Birthday to my favorite human!</p>
-                </div>
-            </div>
-        </section>
-    </div>
+    <div class="stars"></div>
+    <div class="fairy-dust" id="dust"></div>
 
     <div class="nav-dots" id="dots"></div>
 
+    <section id="page1" class="active">
+        <div class="container">
+            <div class="image-side">
+                <img src="WhatsApp Image 2026-05-05 at 11.45.02 PM.jpeg" alt="Kinjal Birthday">
+            </div>
+            <div class="content-side">
+                <h2 class="reveal">ONCE UPON A TIME...</h2>
+                <h1 class="reveal">Kinjal</h1>
+                <p class="reveal">Level 15 Unlocked. To the girl who defines magic and grace, today the kingdom celebrates you. Welcome to your storybook.</p>
+                <button class="start-btn reveal" onclick="document.getElementById('page2').scrollIntoView({behavior: 'smooth'})">READ THE STORY</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="page2">
+        <div class="container">
+            <div class="image-side">
+                <img src="Screenshot 2026-05-05 235717.png" alt="Memories">
+            </div>
+            <div class="content-side">
+                <h2 class="reveal">CHAPTER ONE</h2>
+                <h1 class="reveal">The Year</h1>
+                <p class="reveal">We laughed so much that the classroom walls probably still remember our voices. Changing schools was hard, but those 365 days created a bond that distance can't touch.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="page3">
+        <div class="container">
+            <div class="image-side">
+                <img src="Screenshot 2026-05-05 235501.png" alt="Support">
+            </div>
+            <div class="content-side">
+                <h2 class="reveal">CHAPTER TWO</h2>
+                <h1 class="reveal">My Rock</h1>
+                <p class="reveal">You aren't my sister by blood, but you are just like that. You stood by me at my worst, and for that, you have a permanent place in my heart.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="page4">
+        <div class="container" style="grid-template-columns: 1fr;">
+            <div class="content-side" style="text-align: center; align-items: center;">
+                <h1 class="reveal" style="font-size: 6rem;">Why You're Special</h1>
+                <div style="display: flex; gap: 40px; margin-top: 40px;" class="reveal">
+                    <div><h3>CARING</h3><p>Heart of gold.</p></div>
+                    <div><h3>RADIANT</h3><p>Light of the room.</p></div>
+                    <div><h3>SELFLESS</h3><p>Always there.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="page5">
+        <div class="container">
+            <div class="image-side">
+                <img src="Screenshot 2026-05-05 235756.png" alt="Final Wish">
+            </div>
+            <div class="content-side">
+                <h2 class="reveal">THE ETERNAL PROMISE</h2>
+                <h1 class="reveal">Forever</h1>
+                <p class="reveal">Happy 15th Birthday, Kinjal! Distance is just a number. Stay radiant, stay graceful, and know that I am always just a call away.</p>
+            </div>
+        </div>
+    </section>
+
     <script>
-        let currentIdx = 0;
-        const slider = document.getElementById('mainSlider');
-        const slides = document.querySelectorAll('.slide');
+        // Create Navigation Dots
+        const sections = document.querySelectorAll('section');
         const dotsContainer = document.getElementById('dots');
-        let touchStartX = 0;
-
-        // Dots
-        slides.forEach((_, i) => {
-            const d = document.createElement('div');
-            d.className = `dot ${i === 0 ? 'active' : ''}`;
-            dotsContainer.appendChild(d);
+        sections.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.className = `dot ${i === 0 ? 'active' : ''}`;
+            dotsContainer.appendChild(dot);
         });
 
-        function update() {
-            slider.style.transform = `translateX(-${currentIdx * 100}%)`;
-            document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === currentIdx));
-            slides.forEach((s, i) => s.classList.toggle('active', i === currentIdx));
-        }
+        // Intersection Observer for Animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    const index = Array.from(sections).indexOf(entry.target);
+                    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === index));
+                }
+            });
+        }, { threshold: 0.5 });
 
-        function nextSlide() {
-            currentIdx = (currentIdx + 1) % slides.length;
-            update();
-        }
+        sections.forEach(s => observer.observe(s));
 
-        function openMagic(e) {
-            e.stopPropagation();
-            document.getElementById('entrance').style.opacity = '0';
-            setTimeout(() => document.getElementById('entrance').style.display = 'none', 1500);
-        }
+        // Fairy Dust Particle Generator
+        function createParticle() {
+            const dust = document.getElementById('dust');
+            const p = document.createElement('i');
+            p.className = 'fas fa-sparkles';
+            p.style.position = 'absolute';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.top = '-20px';
+            p.style.color = 'white';
+            p.style.opacity = Math.random();
+            p.style.fontSize = Math.random() * 10 + 5 + 'px';
+            p.style.transition = 'all 5s linear';
+            dust.appendChild(p);
 
-        // Swipe for Mobile
-        window.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
-        window.addEventListener('touchend', e => {
-            const touchEndX = e.changedTouches[0].clientX;
-            if (touchStartX - touchEndX > 50) nextSlide();
-            if (touchStartX - touchEndX < -50) {
-                currentIdx = (currentIdx - 1 + slides.length) % slides.length;
-                update();
-            }
-        });
+            setTimeout(() => {
+                p.style.top = '110vh';
+                p.style.transform = `translateX(${Math.random() * 100 - 50}px) rotate(360deg)`;
+            }, 10);
 
-        // Fairy Dust Generator
-        function createDust() {
-            const container = document.getElementById('stars');
-            const star = document.createElement('i');
-            star.className = 'fas fa-sparkles fairy-dust';
-            star.style.left = Math.random() * 100 + 'vw';
-            star.style.fontSize = Math.random() * 15 + 5 + 'px';
-            star.style.animationDuration = Math.random() * 5 + 5 + 's';
-            container.appendChild(star);
-            setTimeout(() => star.remove(), 8000);
+            setTimeout(() => p.remove(), 5000);
         }
-        setInterval(createDust, 400);
+        setInterval(createParticle, 300);
     </script>
 </body>
 </html>
